@@ -88,6 +88,7 @@ def gross_per_studio(collection)
 end
 
 def movies_with_directors_set(source)
+  # binding.pry
   # GOAL: For each director, find their :movies Array and stick it in a new Array
   #
   # INPUT:
@@ -98,6 +99,14 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  movie_counter = 0
+  director_coll = []
+  while movie_counter < source.length do
+    director_coll << movies_with_director_key(source[movie_counter][:name], source[movie_counter][:movies])
+    movie_counter += 1
+  end
+  director_coll
+  binding.pry
 end
 
 # ----------------    End of Your Code Region --------------------
