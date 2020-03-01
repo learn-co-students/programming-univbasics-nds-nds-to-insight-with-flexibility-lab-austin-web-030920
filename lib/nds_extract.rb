@@ -48,6 +48,15 @@ def movies_with_director_key(name, movies_collection)
   # Array of Hashes where each Hash represents a movie; however, they should all have a
   # :director_name key. This addition can be done by using the provided
   # movie_with_director_name method
+  
+  i = 0
+  movies = []
+  while i < movies_collection.length do
+    movie_data = movies_collection[i]
+    movies << movie_with_director_name(name, movie_data)
+    i += 1
+  end
+  return movies
 end
 
 
@@ -63,6 +72,37 @@ def gross_per_studio(collection)
   #
   # Hash whose keys are the studio names and whose values are the sum
   # total of all the worldwide_gross numbers for every movie in the input Hash
+  
+  studio_totals = {}
+  index = 0
+  current_studio_totals = 0
+  while index < collection.length do
+    current_studio = collection[index][:studio]
+    current_studio_title = collection[index][:title]
+    
+    studio_index = 0
+    while studio_index < collection.length do
+      if collection[studio_index][:studio] == (current_studio)
+        
+        gross = collection[studio_index][:worldwide_gross]
+        current_studio_totals += gross
+        studio_index += 1
+      else
+        studio_index += 1
+      end
+     
+    end
+    index += 1
+    if studio_totals.has_key?(current_studio)
+    else
+      studio_totals[current_studio] = current_studio_totals
+    end
+    current_studio_totals = 0
+    
+  end
+  return studio_totals
+  
+    
 end
 
 def movies_with_directors_set(source)
@@ -76,6 +116,22 @@ def movies_with_directors_set(source)
   #
   # Array of Arrays containing all of a director's movies. Each movie will need
   # to have a :director_name key added to it.
+  
+  movies = []
+  name_index = 0
+  title_index = 0
+  while name_index < source.length do
+    while title_index < source[name_index][:movies].length do
+      hash = source[name_index][:movies][title_index]
+      hash[:director_name] = source[name_index][:name]
+      movies << [hash]
+      title_index += 1
+
+    end
+    title_index = 0
+    name_index += 1
+  end
+  return movies
 end
 
 # ----------------    End of Your Code Region --------------------
